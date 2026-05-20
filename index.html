@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingressos - Venda Antecipada</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            
+            /* Imagens do Flyer nas laterais */
+            background-image: url('wicked.jpg'), url('wicked.jpg');
+            background-position: left center, right center;
+            background-repeat: no-repeat, no-repeat;
+            background-size: contain, contain;
+            background-attachment: fixed;
+        }
+
+        .container {
+            /* Fundo quase opaco para garantir leitura caso sobreponha o flyer no celular */
+            background-color: rgba(24, 24, 24, 0.98); 
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.8);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            margin: 20px;
+            box-sizing: border-box;
+        }
+
+        h2 { color: #ffffff; margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; text-align: left; }
+        label { display: block; margin-bottom: 5px; font-size: 14px; }
+        
+        input { 
+            width: 100%; 
+            padding: 12px; 
+            border: 1px solid #333; 
+            border-radius: 4px; 
+            background-color: #1a1a1a; 
+            color: #fff; 
+            box-sizing: border-box;
+            font-size: 16px; 
+        }
+        input:focus {
+            border-color: #8b0000;
+            outline: none;
+        }
+
+        .error-message {
+            color: #ff4a4a;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        /* Botões */
+        button, .btn-link {
+            width: 100%;
+            padding: 14px;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            box-sizing: border-box;
+            display: inline-block;
+            text-decoration: none;
+            margin-bottom: 12px;
+        }
+        .btn-primary { background-color: #8b0000; }
+        .btn-primary:hover { background-color: #a50000; }
+        .btn-primary:disabled { background-color: #555; cursor: not-allowed; }
+        
+        .btn-pagseguro { background-color: #f37021; }
+        .btn-pagseguro:hover { background-color: #ff843d; }
+        
+        .btn-pix { background-color: #32bcad; }
+        .btn-pix:hover { background-color: #4cd7c8; }
+
+        /* Áreas escondidas inicialmente */
+        #payment-options, #pix-area { display: none; }
+        
+        .qr-code-placeholder { 
+            width: 200px; 
+            height: 200px; 
+            background-color: #333; 
+            margin: 20px auto; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            border: 2px dashed #666; 
+        }
+        .qr-code-placeholder img { max-width: 100%; height: auto; }
+        .copia-cola { 
+            background-color: #1a1a1a; 
+            padding: 12px; 
+            border-radius: 4px; 
+            font-family: monospace; 
+            word-break: break-all; 
+            margin-bottom: 15px; 
+            font-size: 13px; 
+            border: 1px solid #333; 
+        }
+        .instrucoes { 
+            font-size: 13px; 
+            color: #aaa; 
+            margin-top: 15px; 
+            border-top: 1px solid #333; 
+            padding-top: 15px; 
+            text-align: left; 
+            line-height: 1.4; 
+        }
+
+        /* Ajuste fino para mobile */
+        @media (max-width: 600px) {
+            body {
+                background-position: center top;
+                background-size: cover;
+            }
+            .container {
+                margin: 10px;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Imagem do flyer no topo do form -->
+    <img src="wicked.jpg" alt="Flyer do Evento" style="width: 100%; border-radius: 4px; margin-bottom: 15px;">
+
+    <!-- ETAPA 1: Formulário -->
+    <div id="form-section">
+        <h2>Garantir Ingresso</h2>
+        <form id="ingressoForm" novalidate>
+            <div class="form-group">
+                <label for="nome">Nome Completo (Para a lista):</label>
+                <input type="text" id="nome" required placeholder="Digite seu nome">
+            </div>
+            <div class="form-group">
+                <label for="documento">Documento (RG ou CPF):</label>
+                <input type="text" id="documento" required placeholder="Digite o número do documento">
+            </div>
+            <div class="form-group">
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" required placeholder="exemplo@email.com">
+                <div class="error-message" id="email-error">Por favor, insira um e-mail válido com @.</div>
+            </div>
+            <div class="form-group">
+                <label for="telefone">Telefone / WhatsApp:</label>
+                <input type="tel" id="telefone" required placeholder="(00) 00000-0000" maxlength="15">
+                <div class="error-message" id="telefone-error">O telefone deve conter o DDD e número completo.</div>
+            </div>
+            <button type="submit" id="btnSubmit" class="btn-primary">Avançar para Pagamento</button>
+        </form>
+    </div>
+
+    <!-- ETAPA 2: Pagamento -->
+    <div id="payment-options">
+        <h2>Escolha como pagar</h2>
+        <p>Seus dados foram salvos! Escolha a melhor opção abaixo para garantir sua vaga:</p>
+        
+        <a href="LINK_DO_SEU_PAGSEGURO_AQUI" target="_blank" class="btn-link btn-pagseguro" id="linkPagSeguro">
+            Pagar com Cartão (PagSeguro)
+        </a>
+
+        <button class="btn-pix" id="btnShowPix">Pagar com PIX</button>
+
+        <div id="pix-area">
+            <div class="qr-code-placeholder">
+                <img src="seu-qrcode-aqui.png" alt="QR Code Pix">
+            </div>
+            <p>Pix Copia e Cola:</p>
+            <div class="copia-cola">00020126580014br.gov.bcb.pix0136sua-chave-pix-aqui...</div>
+        </div>
+
+        <div class="instrucoes">
+            <strong>Importante:</strong> Seu nome só será validado na lista após a aprovação do PagSeguro ou compensação do Pix no extrato. Guarde seu comprovante!
+        </div>
+    </div>
+</div>
+
+<script>
+    const telefoneInput = document.getElementById('telefone');
+    const emailInput = document.getElementById('email');
+
+    telefoneInput.addEventListener('input', function(e) {
+        let v = e.target.value.replace(/\D/g, ''); 
+        
+        if (v.length > 11) v = v.substring(0, 11);
+        
+        if (v.length > 10) {
+            v = v.replace(/^(\d{2})(\d{5})(\d{4}).*/, '($1) $2-$3');
+        } else if (v.length > 6) {
+            v = v.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, '($1) $2-$3');
+        } else if (v.length > 2) {
+            v = v.replace(/^(\d{2})(\d{0,5})/, '($1) $2');
+        }
+        
+        e.target.value = v;
+    });
+
+    function validaEmail(email) {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+    }
+
+    function validaTelefone(tel) {
+        const numeros = tel.replace(/\D/g, '');
+        return numeros.length === 10 || numeros.length === 11;
+    }
+
+    document.getElementById('ingressoForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const nome = document.getElementById('nome').value.trim();
+        const documento = document.getElementById('documento').value.trim();
+        const email = emailInput.value.trim();
+        const telefone = telefoneInput.value.trim();
+
+        let formValido = true;
+
+        if (!validaEmail(email)) {
+            document.getElementById('email-error').style.display = 'block';
+            formValido = false;
+        } else {
+            document.getElementById('email-error').style.display = 'none';
+        }
+
+        if (!validaTelefone(telefone)) {
+            document.getElementById('telefone-error').style.display = 'block';
+            formValido = false;
+        } else {
+            document.getElementById('telefone-error').style.display = 'none';
+        }
+
+        if (!formValido) return; 
+
+        const btn = document.getElementById('btnSubmit');
+        btn.innerText = "Processando...";
+        btn.disabled = true;
+
+        const dados = {
+            nome: nome,
+            documento: documento,
+            email: email,
+            telefone: telefone,
+            data_solicitacao: new Date().toLocaleString('pt-BR')
+        };
+
+        // AQUI ESTÁ A SUA URL REAL E O TRUQUE DO TEXT/PLAIN
+        const webhookUrl = 'https://script.google.com/macros/s/AKfycby2l33lS4ATz9q_-VZOSrVfWAAElllgTJ4ONO4sWTX8fH-Xy1SxgadtEukAU_KsZHnhoQ/exec';
+
+        // ENVIA OS DADOS E TROCA DE TELA (AGORA COM NO-CORS)
+        fetch(webhookUrl, {
+            method: 'POST',
+            mode: 'no-cors', // <-- O truque para não dar erro no computador!
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(dados)
+        })
+        .then(() => {
+            // Avança para a tela de pagamento ignorando os bloqueios
+            document.getElementById('form-section').style.display = 'none';
+            document.getElementById('payment-options').style.display = 'block';
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert("Houve um erro de rede. Tente novamente.");
+            btn.innerText = "Avançar para Pagamento";
+            btn.disabled = false;
+        });
+
+    document.getElementById('btnShowPix').addEventListener('click', function() {
+        const pixArea = document.getElementById('pix-area');
+        if (pixArea.style.display === 'block') {
+            pixArea.style.display = 'none';
+        } else {
+            pixArea.style.display = 'block';
+            pixArea.scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+</script>
+
+</body>
+</html>
