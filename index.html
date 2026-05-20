@@ -14,9 +14,7 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            
-            /* Imagens do Flyer nas laterais */
-            background-image: url('wicked.jpg'), url('wicked.jpg');
+            background-image: url('seu-flyer.jpg'), url('seu-flyer.jpg');
             background-position: left center, right center;
             background-repeat: no-repeat, no-repeat;
             background-size: contain, contain;
@@ -24,7 +22,6 @@
         }
 
         .container {
-            /* Fundo quase opaco para garantir leitura caso sobreponha o flyer no celular */
             background-color: rgba(24, 24, 24, 0.98); 
             padding: 30px;
             border-radius: 8px;
@@ -57,93 +54,39 @@
             outline: none;
         }
 
-        .error-message {
-            color: #ff4a4a;
-            font-size: 12px;
-            margin-top: 5px;
-            display: none;
-        }
+        .error-message { color: #ff4a4a; font-size: 12px; margin-top: 5px; display: none; }
         
-        /* Botões */
         button, .btn-link {
-            width: 100%;
-            padding: 14px;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.3s;
-            box-sizing: border-box;
-            display: inline-block;
-            text-decoration: none;
-            margin-bottom: 12px;
+            width: 100%; padding: 14px; color: white; border: none; border-radius: 4px;
+            font-size: 16px; cursor: pointer; font-weight: bold; transition: background-color 0.3s;
+            box-sizing: border-box; display: inline-block; text-decoration: none; margin-bottom: 12px;
         }
         .btn-primary { background-color: #8b0000; }
         .btn-primary:hover { background-color: #a50000; }
         .btn-primary:disabled { background-color: #555; cursor: not-allowed; }
-        
         .btn-pagseguro { background-color: #f37021; }
         .btn-pagseguro:hover { background-color: #ff843d; }
-        
         .btn-pix { background-color: #32bcad; }
         .btn-pix:hover { background-color: #4cd7c8; }
 
-        /* Áreas escondidas inicialmente */
         #payment-options, #pix-area { display: none; }
         
-        .qr-code-placeholder { 
-            width: 200px; 
-            height: 200px; 
-            background-color: #333; 
-            margin: 20px auto; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            border: 2px dashed #666; 
-        }
+        .qr-code-placeholder { width: 200px; height: 200px; background-color: #333; margin: 20px auto; display: flex; justify-content: center; align-items: center; border: 2px dashed #666; }
         .qr-code-placeholder img { max-width: 100%; height: auto; }
-        .copia-cola { 
-            background-color: #1a1a1a; 
-            padding: 12px; 
-            border-radius: 4px; 
-            font-family: monospace; 
-            word-break: break-all; 
-            margin-bottom: 15px; 
-            font-size: 13px; 
-            border: 1px solid #333; 
-        }
-        .instrucoes { 
-            font-size: 13px; 
-            color: #aaa; 
-            margin-top: 15px; 
-            border-top: 1px solid #333; 
-            padding-top: 15px; 
-            text-align: left; 
-            line-height: 1.4; 
-        }
+        .copia-cola { background-color: #1a1a1a; padding: 12px; border-radius: 4px; font-family: monospace; word-break: break-all; margin-bottom: 15px; font-size: 13px; border: 1px solid #333; }
+        .instrucoes { font-size: 13px; color: #aaa; margin-top: 15px; border-top: 1px solid #333; padding-top: 15px; text-align: left; line-height: 1.4; }
 
-        /* Ajuste fino para mobile */
         @media (max-width: 600px) {
-            body {
-                background-position: center top;
-                background-size: cover;
-            }
-            .container {
-                margin: 10px;
-                padding: 20px;
-            }
+            body { background-position: center top; background-size: cover; }
+            .container { margin: 10px; padding: 20px; }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- Imagem do flyer no topo do form -->
-    <img src="wicked.jpg" alt="Flyer do Evento" style="width: 100%; border-radius: 4px; margin-bottom: 15px;">
+    <img src="seu-flyer.jpg" alt="Flyer do Evento" style="width: 100%; border-radius: 4px; margin-bottom: 15px;">
 
-    <!-- ETAPA 1: Formulário -->
     <div id="form-section">
         <h2>Garantir Ingresso</h2>
         <form id="ingressoForm" novalidate>
@@ -169,7 +112,6 @@
         </form>
     </div>
 
-    <!-- ETAPA 2: Pagamento -->
     <div id="payment-options">
         <h2>Escolha como pagar</h2>
         <p>Seus dados foram salvos! Escolha a melhor opção abaixo para garantir sua vaga:</p>
@@ -200,9 +142,7 @@
 
     telefoneInput.addEventListener('input', function(e) {
         let v = e.target.value.replace(/\D/g, ''); 
-        
         if (v.length > 11) v = v.substring(0, 11);
-        
         if (v.length > 10) {
             v = v.replace(/^(\d{2})(\d{5})(\d{4}).*/, '($1) $2-$3');
         } else if (v.length > 6) {
@@ -210,7 +150,6 @@
         } else if (v.length > 2) {
             v = v.replace(/^(\d{2})(\d{0,5})/, '($1) $2');
         }
-        
         e.target.value = v;
     });
 
@@ -231,7 +170,6 @@
         const documento = document.getElementById('documento').value.trim();
         const email = emailInput.value.trim();
         const telefone = telefoneInput.value.trim();
-
         let formValido = true;
 
         if (!validaEmail(email)) {
@@ -262,18 +200,18 @@
             data_solicitacao: new Date().toLocaleString('pt-BR')
         };
 
-        // AQUI ESTÁ A SUA URL REAL E O TRUQUE DO TEXT/PLAIN
-        const webhookUrl = 'https://script.google.com/macros/s/AKfycby2l33lS4ATz9q_-VZOSrVfWAAElllgTJ4ONO4sWTX8fH-Xy1SxgadtEukAU_KsZHnhoQ/exec';
+        // COLOQUE AQUI A NOVA URL QUE O GOOGLE GEROU QUANDO MUDAMOS PARA O DOGET
+        const webhookUrl = 'https://script.google.com/macros/s/SUA_NOVA_URL_AQUI/exec';
 
-        // ENVIA OS DADOS E TROCA DE TELA (AGORA COM NO-CORS)
-        fetch(webhookUrl, {
-            method: 'POST',
-            mode: 'no-cors', // <-- O truque para não dar erro no computador!
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify(dados)
+        // Converte os dados para enviar pela URL (Método GET)
+        const params = new URLSearchParams(dados).toString();
+        const urlCompleta = webhookUrl + "?" + params;
+
+        fetch(urlCompleta, {
+            method: 'GET',
+            mode: 'no-cors'
         })
         .then(() => {
-            // Avança para a tela de pagamento ignorando os bloqueios
             document.getElementById('form-section').style.display = 'none';
             document.getElementById('payment-options').style.display = 'block';
         })
@@ -283,6 +221,7 @@
             btn.innerText = "Avançar para Pagamento";
             btn.disabled = false;
         });
+    });
 
     document.getElementById('btnShowPix').addEventListener('click', function() {
         const pixArea = document.getElementById('pix-area');
