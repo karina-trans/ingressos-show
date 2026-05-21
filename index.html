@@ -5,15 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ingressos - Venda Antecipada</title>
     <style>
-        body {
+body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #000000; /* Fundo preto liso atrás de tudo */
+            background-color: #000000; 
             color: #e0e0e0;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
+            
+            /* DEVOLVENDO OS FLYERS LATERAIS */
+            background-image: url('seu-flyer.jpg'), url('seu-flyer.jpg');
+            background-position: left center, right center;
+            background-repeat: no-repeat, no-repeat;
+            background-size: contain, contain;
+            background-attachment: fixed;
         }
 
         /* O flyer agora é o fundo exclusivo desta caixa central */
