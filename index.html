@@ -7,51 +7,45 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #121212;
+            background-color: #000000; /* Fundo preto liso atrás de tudo */
             color: #e0e0e0;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background-image: url('seu-flyer.jpg'), url('seu-flyer.jpg');
-            background-position: left center, right center;
-            background-repeat: no-repeat, no-repeat;
-            background-size: contain, contain;
-            background-attachment: fixed;
         }
 
-        /* O flyer agora é o fundo do container principal */
+        /* O flyer agora é o fundo exclusivo desta caixa central */
         .container {
             background-image: url('seu-flyer.jpg');
             background-size: cover;
             background-position: center;
-            /* O padding é o que cria a "borda vazando" do flyer ao redor do form */
-            padding: 12px; 
+            /* O padding cria a "borda vazando" do flyer ao redor do formulário */
+            padding: 15px; 
             border-radius: 8px;
             box-shadow: 0 4px 25px rgba(0,0,0,0.8);
             width: 100%;
             max-width: 400px;
             position: relative;
-            z-index: 10;
             margin: 20px;
             box-sizing: border-box;
         }
 
         /* A caixa escura onde os textos realmente ficam, para dar leitura */
         .content-wrapper {
-            background-color: rgba(20, 20, 20, 0.95); 
+            background-color: rgba(18, 18, 18, 0.95); 
             padding: 25px;
             border-radius: 6px;
             text-align: center;
             box-sizing: border-box;
         }
 
-        /* ESTILO DA NOVA CAIXA DE LOTE */
+        /* ESTILO DA CAIXA DE LOTE */
         .lote-box {
             background-color: #8b0000;
             color: #fff;
-            font-size: 22px;
+            font-size: 20px;
             font-weight: bold;
             padding: 12px;
             border-radius: 6px;
@@ -75,10 +69,7 @@
             box-sizing: border-box;
             font-size: 16px; 
         }
-        input:focus {
-            border-color: #8b0000;
-            outline: none;
-        }
+        input:focus { border-color: #8b0000; outline: none; }
 
         .error-message { color: #ff4a4a; font-size: 12px; margin-top: 5px; display: none; }
         
@@ -90,8 +81,10 @@
         .btn-primary { background-color: #8b0000; }
         .btn-primary:hover { background-color: #a50000; }
         .btn-primary:disabled { background-color: #555; cursor: not-allowed; }
+        
         .btn-pagseguro { background-color: #f37021; }
         .btn-pagseguro:hover { background-color: #ff843d; }
+        
         .btn-pix { background-color: #32bcad; }
         .btn-pix:hover { background-color: #4cd7c8; }
 
@@ -103,7 +96,6 @@
         .instrucoes { font-size: 13px; color: #aaa; margin-top: 15px; border-top: 1px solid #333; padding-top: 15px; text-align: left; line-height: 1.4; }
 
         @media (max-width: 600px) {
-            body { background-position: center top; background-size: cover; }
             .container { margin: 10px; padding: 10px; }
             .content-wrapper { padding: 15px; }
         }
@@ -144,7 +136,6 @@
         <!-- ETAPA 2: Pagamento -->
         <div id="payment-options">
             
-            <!-- NOVA CAIXA COM O LOTE E VALOR -->
             <div class="lote-box">
                 1º LOTE - R$ 35,00
             </div>
@@ -152,7 +143,8 @@
             <h2>Escolha como pagar</h2>
             <p>Seus dados foram salvos! Escolha a melhor opção abaixo para garantir sua vaga:</p>
             
-            <a href="LINK_DO_SEU_PAGSEGURO_AQUI" target="_blank" class="btn-link btn-pagseguro" id="linkPagSeguro">
+            <!-- COLE SEU LINK DO PAGSEGURO AQUI -->
+            <a href="https://pag.ae/81P9hijxR" target="_blank" class="btn-link btn-pagseguro" id="linkPagSeguro">
                 Pagar com Cartão (PagSeguro)
             </a>
 
@@ -160,9 +152,11 @@
 
             <div id="pix-area">
                 <div class="qr-code-placeholder">
+                    <!-- A IMAGEM DO QR CODE ESTÁ AQUI -->
                     <img src="QRcode.jpg" alt="QR Code Pix">
                 </div>
                 <p>Pix Copia e Cola:</p>
+                <!-- COLE SUA CHAVE PIX AQUI -->
                 <div class="copia-cola">00020126580014br.gov.bcb.pix0136sua-chave-pix-aqui...</div>
             </div>
 
@@ -238,8 +232,10 @@
             data_solicitacao: new Date().toLocaleString('pt-BR')
         };
 
-        // COLOQUE A SUA URL REAL AQUI NOVAMENTE
-        const webhookUrl = 'https://script.google.com/macros/s/AKfycby2l33lS4ATz9q_-VZOSrVfWAAElllgTJ4ONO4sWTX8fH-Xy1SxgadtEukAU_KsZHnhoQ/exec';
+        // ==========================================
+        // ATENÇÃO: COLE SUA URL DO GOOGLE AQUI ABAIXO
+        // ==========================================
+        const webhookUrl = 'https://script.google.com/macros/s/SUA_URL_DO_GOOGLE_AQUI/exec';
 
         const params = new URLSearchParams(dados).toString();
         const urlCompleta = webhookUrl + "?" + params;
