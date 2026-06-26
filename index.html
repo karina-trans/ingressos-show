@@ -202,7 +202,7 @@ body {
         return numeros.length === 10 || numeros.length === 11;
     }
 
-    document.getElementById('ingressoForm').addEventListener('submit', function(e) {
+document.getElementById('ingressoForm').addEventListener('submit', function(e) {
         e.preventDefault();
 
         const nome = document.getElementById('nome').value.trim();
@@ -211,18 +211,37 @@ body {
         const telefone = telefoneInput.value.trim();
         let formValido = true;
 
-        if (!validaEmail(email)) {
-            document.getElementById('email-error').style.display = 'block';
+        // VALIDAÇÃO DOS CAMPOS OBRIGATÓRIOS
+        if (nome === "") {
+            alert("Por favor, preencha o seu Nome Completo.");
             formValido = false;
-        } else {
-            document.getElementById('email-error').style.display = 'none';
+            return;
         }
 
-        if (!validaTelefone(telefone)) {
+        if (documento === "") {
+            alert("Por favor, preencha o seu Documento (RG ou CPF).");
+            formValido = false;
+            return;
+        }
+
+        if (telefone === "") {
+            document.getElementById('telefone-error').innerText = "O telefone é obrigatório.";
+            document.getElementById('telefone-error').style.display = 'block';
+            formValido = false;
+        } else if (!validaTelefone(telefone)) {
+            document.getElementById('telefone-error').innerText = "O telefone deve conter o DDD e número completo.";
             document.getElementById('telefone-error').style.display = 'block';
             formValido = false;
         } else {
             document.getElementById('telefone-error').style.display = 'none';
+        }
+
+        // O E-MAIL SÓ É VALIDADO SE NÃO ESTIVER VAZIO
+        if (email !== "" && !validaEmail(email)) {
+            document.getElementById('email-error').style.display = 'block';
+            formValido = false;
+        } else {
+            document.getElementById('email-error').style.display = 'none';
         }
 
         if (!formValido) return; 
@@ -234,15 +253,13 @@ body {
         const dados = {
             nome: nome,
             documento: documento,
-            email: email,
+            email: email, // Vai vazio para a planilha se não preencher, sem quebrar
             telefone: telefone,
             data_solicitacao: new Date().toLocaleString('pt-BR')
         };
 
-        // ==========================================
-        // ATENÇÃO: COLE SUA URL DO GOOGLE AQUI ABAIXO
-        // ==========================================
-        const webhookUrl = 'https://script.google.com/macros/s/SUA_URL_DO_GOOGLE_AQUI/exec';
+        // SUA URL DO GOOGLE JÁ CONFIGURADA
+        const webhookUrl = 'https://script.google.com/macros/s/AKfycby2QsygsZmAz5wZeuuDwkKY2L6AF_K3AZl1H0ra8nctWPpapCp0Pyd0OAA4FQMToONLYQ/exec';
 
         const params = new URLSearchParams(dados).toString();
         const urlCompleta = webhookUrl + "?" + params;
