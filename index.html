@@ -261,6 +261,7 @@ document.getElementById('ingressoForm').addEventListener('submit', function(e) {
         // SUA URL DO GOOGLE JÁ CONFIGURADA
         const webhookUrl = 'https://script.google.com/macros/s/AKfycby2QsygsZmAz5wZeuuDwkKY2L6AF_K3AZl1H0ra8nctWPpapCp0Pyd0OAA4FQMToONLYQ/exec';
 
+
         const params = new URLSearchParams(dados).toString();
         const urlCompleta = webhookUrl + "?" + params;
 
