@@ -163,15 +163,15 @@ body {
                     <img src="QRcode.jpg" alt="QR Code Pix">
                 </div>
                 <p>Pix Copia e Cola:</p>
-                <!-- COLE SUA CHAVE PIX AQUI -->
-                <div class="copia-cola">00020126580014br.gov.bcb.pix0136sua-chave-pix-aqui...</div>
+                
+                <!-- COLOQUE SUA CHAVE PIX REAL AQUI NO LUGAR DESSE TEXTO GRANDE -->
+                <div class="copia-cola" id="chavePix">00020126580014BR.GOV.BCB.PIX0136d29dfde6-70e2-48d9-a1b5-c7aca7054a6e520400005303986540535.005802BR5925Karina Rodrigues Albuquer6009SAO PAULO62140510QEQ0VzEq4O6304DAA6</div>
+                
+                <!-- NOVO BOTÃO DE COPIAR -->
+                <button type="button" class="btn-pix" id="btnCopiarPix" style="margin-top: 5px; padding: 10px; font-size: 14px;">
+                    Copiar Código Pix
+                </button>
             </div>
-
-            <div class="instrucoes">
-                <strong>Importante:</strong> Seu nome só será validado na lista após a aprovação do PagSeguro ou compensação do Pix no extrato. Guarde seu comprovante!
-            </div>
-        </div>
-
     </div>
 </div>
 
@@ -290,6 +290,28 @@ document.getElementById('ingressoForm').addEventListener('submit', function(e) {
             pixArea.scrollIntoView({ behavior: 'smooth' });
         }
     });
+// FUNÇÃO PARA COPIAR O CÓDIGO PIX
+    document.getElementById('btnCopiarPix').addEventListener('click', function() {
+        const textoPix = document.getElementById('chavePix').innerText;
+        
+        navigator.clipboard.writeText(textoPix).then(() => {
+            const btnCopiar = document.getElementById('btnCopiarPix');
+            const textoOriginal = btnCopiar.innerText;
+            
+            // Muda o botão temporariamente para dar feedback visual
+            btnCopiar.innerText = "✓ Copiado!";
+            btnCopiar.style.backgroundColor = "#28a745"; // Fica verdinho ao copiar
+            
+            setTimeout(() => {
+                btnCopiar.innerText = textoOriginal;
+                btnCopiar.style.backgroundColor = "#32bcad"; // Volta para a cor original
+            }, 2000);
+        }).catch(err => {
+            console.error('Erro ao copiar: ', err);
+            alert("Não foi possível copiar automaticamente. Por favor, selecione e copie o texto manualmente.");
+        });
+    });
+
 </script>
 
 </body>
